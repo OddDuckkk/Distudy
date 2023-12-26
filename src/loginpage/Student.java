@@ -145,7 +145,8 @@ public class Student extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         BookmarkTable = new javax.swing.JTable();
         DiskusiLabel = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        pdfScrollPane1 = new javax.swing.JScrollPane();
+        pdfPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         BookmarkNavigator = new javax.swing.JButton();
         MateriNavigator = new javax.swing.JButton();
@@ -178,7 +179,7 @@ public class Student extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 863, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 861, Short.MAX_VALUE)
                 .addComponent(usernameLabel)
                 .addGap(205, 205, 205))
         );
@@ -322,7 +323,7 @@ public class Student extends javax.swing.JFrame {
         jScrollPane2.setViewportView(BookmarkTable);
 
         AddDiskusiPanel.add(jScrollPane2);
-        jScrollPane2.setBounds(20, 70, 348, 402);
+        jScrollPane2.setBounds(20, 70, 350, 402);
 
         DiskusiLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         DiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
@@ -330,9 +331,21 @@ public class Student extends javax.swing.JFrame {
         AddDiskusiPanel.add(DiskusiLabel);
         DiskusiLabel.setBounds(20, 30, 169, 29);
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Rectangle 79.png"))); // NOI18N
-        AddDiskusiPanel.add(jLabel6);
-        jLabel6.setBounds(0, 6, 1290, 800);
+        javax.swing.GroupLayout pdfPanel1Layout = new javax.swing.GroupLayout(pdfPanel1);
+        pdfPanel1.setLayout(pdfPanel1Layout);
+        pdfPanel1Layout.setHorizontalGroup(
+            pdfPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 849, Short.MAX_VALUE)
+        );
+        pdfPanel1Layout.setVerticalGroup(
+            pdfPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 730, Short.MAX_VALUE)
+        );
+
+        pdfScrollPane1.setViewportView(pdfPanel1);
+
+        AddDiskusiPanel.add(pdfScrollPane1);
+        pdfScrollPane1.setBounds(380, 70, 851, 732);
 
         TabPane.addTab("tab1", AddDiskusiPanel);
 
@@ -443,7 +456,45 @@ public class Student extends javax.swing.JFrame {
     }//GEN-LAST:event_MateriTableMouseClicked
 
     private void BookmarkTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BookmarkTableMouseClicked
-      
+      int i = BookmarkTable.getSelectedRow();
+        TableModel model = BookmarkTable.getModel();
+        
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM materi WHERE id_materi = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            
+            statement.setInt(1, Integer.parseInt(model.getValueAt(i, 0).toString()));
+
+            
+            ResultSet resultSet = statement.executeQuery();
+            
+
+            if (resultSet.next()) {
+                Blob blob = resultSet.getBlob("data_materi");
+                InputStream inputStream = blob.getBinaryStream();
+
+                PDDocument document = PDDocument.load(inputStream);
+                PDFRenderer pdfRenderer = new PDFRenderer(document);
+
+                int numPages = document.getNumberOfPages();
+                pdfPanel1.removeAll();
+                pdfPanel1.setLayout(new GridLayout(numPages, 1));
+
+                for (int j = 0; j < numPages; j++) {
+                    BufferedImage image = pdfRenderer.renderImageWithDPI(j, 100);
+                    JLabel label = new JLabel(new ImageIcon(image));
+                    pdfPanel1.add(label);
+                }
+
+                pdfScrollPane1.revalidate();
+                pdfScrollPane1.repaint();
+            } else {
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_BookmarkTableMouseClicked
 
     private void MateriNavigatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MateriNavigatorActionPerformed
@@ -538,14 +589,15 @@ catch (SQLException e) {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel materiSayaLabel;
     private javax.swing.JPanel pdfPanel;
+    private javax.swing.JPanel pdfPanel1;
     private javax.swing.JScrollPane pdfScrollPane;
+    private javax.swing.JScrollPane pdfScrollPane1;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }
