@@ -235,7 +235,6 @@ public class Lecturer extends javax.swing.JFrame {
         TopikDiskusiLabel3 = new javax.swing.JLabel();
         IdDiskusiHapusField = new javax.swing.JTextField();
         HapusDiskusiButton = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         DiskusiNavigator = new javax.swing.JButton();
         MateriNavigator = new javax.swing.JButton();
@@ -593,7 +592,7 @@ public class Lecturer extends javax.swing.JFrame {
         TopikDiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
         TopikDiskusiLabel.setText("Topik Diskusi");
         AddDiskusiPanel.add(TopikDiskusiLabel);
-        TopikDiskusiLabel.setBounds(36, 143, 147, 29);
+        TopikDiskusiLabel.setBounds(36, 143, 145, 29);
 
         TopikDiskusiField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         TopikDiskusiField.setForeground(new java.awt.Color(51, 153, 255));
@@ -609,7 +608,7 @@ public class Lecturer extends javax.swing.JFrame {
         NamaDiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
         NamaDiskusiLabel.setText("Nama Diskusi");
         AddDiskusiPanel.add(NamaDiskusiLabel);
-        NamaDiskusiLabel.setBounds(36, 87, 149, 29);
+        NamaDiskusiLabel.setBounds(36, 87, 148, 29);
 
         NamaDiskusiField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         NamaDiskusiField.setForeground(new java.awt.Color(51, 153, 255));
@@ -675,7 +674,7 @@ public class Lecturer extends javax.swing.JFrame {
         DiskusiSayaLabel1.setForeground(new java.awt.Color(51, 153, 255));
         DiskusiSayaLabel1.setText("Diskusi");
         AddDiskusiPanel.add(DiskusiSayaLabel1);
-        DiskusiSayaLabel1.setBounds(925, 34, 80, 29);
+        DiskusiSayaLabel1.setBounds(925, 34, 79, 29);
 
         DiskusiTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         DiskusiTable.setForeground(new java.awt.Color(51, 153, 255));
@@ -699,25 +698,25 @@ public class Lecturer extends javax.swing.JFrame {
         penambahanDiskusiLabel1.setForeground(new java.awt.Color(51, 153, 255));
         penambahanDiskusiLabel1.setText("Modifikasi Diskusi");
         AddDiskusiPanel.add(penambahanDiskusiLabel1);
-        penambahanDiskusiLabel1.setBounds(36, 243, 201, 29);
+        penambahanDiskusiLabel1.setBounds(36, 243, 198, 29);
 
         NamaDiskusiLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         NamaDiskusiLabel1.setForeground(new java.awt.Color(51, 153, 255));
         NamaDiskusiLabel1.setText("Nama Diskusi");
         AddDiskusiPanel.add(NamaDiskusiLabel1);
-        NamaDiskusiLabel1.setBounds(36, 296, 149, 29);
+        NamaDiskusiLabel1.setBounds(36, 296, 148, 29);
 
         TopikDiskusiLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         TopikDiskusiLabel1.setForeground(new java.awt.Color(51, 153, 255));
         TopikDiskusiLabel1.setText("Topik Diskusi");
         AddDiskusiPanel.add(TopikDiskusiLabel1);
-        TopikDiskusiLabel1.setBounds(36, 352, 147, 29);
+        TopikDiskusiLabel1.setBounds(36, 352, 145, 29);
 
         TopikDiskusiLabel2.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         TopikDiskusiLabel2.setForeground(new java.awt.Color(51, 153, 255));
         TopikDiskusiLabel2.setText("Id Diskusi");
         AddDiskusiPanel.add(TopikDiskusiLabel2);
-        TopikDiskusiLabel2.setBounds(36, 408, 107, 29);
+        TopikDiskusiLabel2.setBounds(36, 408, 106, 29);
 
         NamaDiskusiUpdateField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         NamaDiskusiUpdateField.setForeground(new java.awt.Color(51, 153, 255));
@@ -769,13 +768,13 @@ public class Lecturer extends javax.swing.JFrame {
         penambahanDiskusiLabel2.setForeground(new java.awt.Color(51, 153, 255));
         penambahanDiskusiLabel2.setText("Hapus Diskusi");
         AddDiskusiPanel.add(penambahanDiskusiLabel2);
-        penambahanDiskusiLabel2.setBounds(36, 509, 155, 29);
+        penambahanDiskusiLabel2.setBounds(36, 509, 154, 29);
 
         TopikDiskusiLabel3.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         TopikDiskusiLabel3.setForeground(new java.awt.Color(51, 153, 255));
         TopikDiskusiLabel3.setText("Id Diskusi");
         AddDiskusiPanel.add(TopikDiskusiLabel3);
-        TopikDiskusiLabel3.setBounds(36, 562, 107, 29);
+        TopikDiskusiLabel3.setBounds(36, 562, 106, 29);
 
         IdDiskusiHapusField.setEditable(false);
         IdDiskusiHapusField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
@@ -801,11 +800,7 @@ public class Lecturer extends javax.swing.JFrame {
             }
         });
         AddDiskusiPanel.add(HapusDiskusiButton);
-        HapusDiskusiButton.setBounds(366, 615, 155, 40);
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Rectangle 79.png"))); // NOI18N
-        AddDiskusiPanel.add(jLabel6);
-        jLabel6.setBounds(0, 6, 1290, 800);
+        HapusDiskusiButton.setBounds(360, 620, 170, 40);
 
         TabPane.addTab("tab1", AddDiskusiPanel);
 
@@ -1299,7 +1294,6 @@ public class Lecturer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

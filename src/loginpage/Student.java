@@ -132,7 +132,7 @@ public class Student extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         TabPane = new javax.swing.JTabbedPane();
-        AddMateriPanel = new javax.swing.JPanel();
+        MateriPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         MateriTable = new javax.swing.JTable();
         materiSayaLabel = new javax.swing.JLabel();
@@ -140,8 +140,9 @@ public class Student extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         pdfScrollPane = new javax.swing.JScrollPane();
         pdfPanel = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        AddDiskusiPanel = new javax.swing.JPanel();
+        BookmarkPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         BookmarkTable = new javax.swing.JTable();
         DiskusiLabel = new javax.swing.JLabel();
@@ -179,9 +180,9 @@ public class Student extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 861, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1027, Short.MAX_VALUE)
                 .addComponent(usernameLabel)
-                .addGap(205, 205, 205))
+                .addGap(39, 39, 39))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,13 +190,10 @@ public class Student extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(0, 7, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(usernameLabel)))
+                    .addComponent(usernameLabel)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -203,7 +201,7 @@ public class Student extends javax.swing.JFrame {
 
         TabPane.setBackground(new java.awt.Color(255, 255, 255));
 
-        AddMateriPanel.setBackground(new java.awt.Color(255, 255, 255));
+        MateriPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         MateriTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         MateriTable.setForeground(new java.awt.Color(51, 153, 255));
@@ -245,6 +243,8 @@ public class Student extends javax.swing.JFrame {
 
         pdfScrollPane.setViewportView(pdfPanel);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
         jButton1.setBackground(new java.awt.Color(51, 153, 255));
         jButton1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -255,52 +255,69 @@ public class Student extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout AddMateriPanelLayout = new javax.swing.GroupLayout(AddMateriPanel);
-        AddMateriPanel.setLayout(AddMateriPanelLayout);
-        AddMateriPanelLayout.setHorizontalGroup(
-            AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AddMateriPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jButton1)
+                .addGap(29, 29, 29))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addGap(60, 60, 60))
+        );
+
+        javax.swing.GroupLayout MateriPanelLayout = new javax.swing.GroupLayout(MateriPanel);
+        MateriPanel.setLayout(MateriPanelLayout);
+        MateriPanelLayout.setHorizontalGroup(
+            MateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MateriPanelLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(materiSayaLabel)
-                    .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                        .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                    .addGroup(MateriPanelLayout.createSequentialGroup()
+                        .addGroup(MateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(MateriPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(97, 97, 97)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pdfScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 851, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addContainerGap(124, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(155, 155, 155))
         );
-        AddMateriPanelLayout.setVerticalGroup(
-            AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AddMateriPanelLayout.createSequentialGroup()
+        MateriPanelLayout.setVerticalGroup(
+            MateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MateriPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(materiSayaLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                .addGroup(MateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MateriPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(103, 103, 103)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel4)
                         .addGap(40, 40, 40))
-                    .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                        .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MateriPanelLayout.createSequentialGroup()
+                        .addGroup(MateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(pdfScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
-        TabPane.addTab("tab1", AddMateriPanel);
+        TabPane.addTab("tab1", MateriPanel);
 
-        AddDiskusiPanel.setBackground(new java.awt.Color(255, 255, 255));
-        AddDiskusiPanel.setLayout(null);
+        BookmarkPanel.setBackground(new java.awt.Color(255, 255, 255));
+        BookmarkPanel.setLayout(null);
 
         BookmarkTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         BookmarkTable.setForeground(new java.awt.Color(51, 153, 255));
@@ -322,13 +339,13 @@ public class Student extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(BookmarkTable);
 
-        AddDiskusiPanel.add(jScrollPane2);
-        jScrollPane2.setBounds(20, 70, 350, 402);
+        BookmarkPanel.add(jScrollPane2);
+        jScrollPane2.setBounds(20, 70, 280, 402);
 
         DiskusiLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         DiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
         DiskusiLabel.setText("Bookmark Saya");
-        AddDiskusiPanel.add(DiskusiLabel);
+        BookmarkPanel.add(DiskusiLabel);
         DiskusiLabel.setBounds(20, 30, 169, 29);
 
         javax.swing.GroupLayout pdfPanel1Layout = new javax.swing.GroupLayout(pdfPanel1);
@@ -344,10 +361,10 @@ public class Student extends javax.swing.JFrame {
 
         pdfScrollPane1.setViewportView(pdfPanel1);
 
-        AddDiskusiPanel.add(pdfScrollPane1);
-        pdfScrollPane1.setBounds(380, 70, 851, 732);
+        BookmarkPanel.add(pdfScrollPane1);
+        pdfScrollPane1.setBounds(310, 70, 851, 732);
 
-        TabPane.addTab("tab1", AddDiskusiPanel);
+        TabPane.addTab("tab1", BookmarkPanel);
 
         getContentPane().add(TabPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, 840));
 
@@ -411,49 +428,6 @@ public class Student extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void MateriTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MateriTableMouseClicked
-        int i = MateriTable.getSelectedRow();
-        TableModel model = MateriTable.getModel();
-        
-        jButton1.setVisible(true);
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM materi WHERE id_materi = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            
-            statement.setInt(1, Integer.parseInt(model.getValueAt(i, 0).toString()));
-
-            
-            ResultSet resultSet = statement.executeQuery();
-            
-
-            if (resultSet.next()) {
-                Blob blob = resultSet.getBlob("data_materi");
-                InputStream inputStream = blob.getBinaryStream();
-
-                PDDocument document = PDDocument.load(inputStream);
-                PDFRenderer pdfRenderer = new PDFRenderer(document);
-
-                int numPages = document.getNumberOfPages();
-                pdfPanel.removeAll();
-                pdfPanel.setLayout(new GridLayout(numPages, 1));
-
-                for (int j = 0; j < numPages; j++) {
-                    BufferedImage image = pdfRenderer.renderImageWithDPI(j, 100);
-                    JLabel label = new JLabel(new ImageIcon(image));
-                    pdfPanel.add(label);
-                }
-
-                pdfScrollPane.revalidate();
-                pdfScrollPane.repaint();
-            } else {
-            }
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-        }
-        
-    }//GEN-LAST:event_MateriTableMouseClicked
 
     private void BookmarkTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BookmarkTableMouseClicked
       int i = BookmarkTable.getSelectedRow();
@@ -529,14 +503,55 @@ public class Student extends javax.swing.JFrame {
             statement.setInt(2, Integer.parseInt(model.getValueAt(i, 0).toString()));
 
             statement.execute();
-            
+
             statement.close();
             connection.close();
-}
-catch (SQLException e) {
+        }
+        catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }// TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void MateriTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MateriTableMouseClicked
+        int i = MateriTable.getSelectedRow();
+        TableModel model = MateriTable.getModel();
+
+        jButton1.setVisible(true);
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM materi WHERE id_materi = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setInt(1, Integer.parseInt(model.getValueAt(i, 0).toString()));
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                Blob blob = resultSet.getBlob("data_materi");
+                InputStream inputStream = blob.getBinaryStream();
+
+                PDDocument document = PDDocument.load(inputStream);
+                PDFRenderer pdfRenderer = new PDFRenderer(document);
+
+                int numPages = document.getNumberOfPages();
+                pdfPanel.removeAll();
+                pdfPanel.setLayout(new GridLayout(numPages, 1));
+
+                for (int j = 0; j < numPages; j++) {
+                    BufferedImage image = pdfRenderer.renderImageWithDPI(j, 100);
+                    JLabel label = new JLabel(new ImageIcon(image));
+                    pdfPanel.add(label);
+                }
+
+                pdfScrollPane.revalidate();
+                pdfScrollPane.repaint();
+            } else {
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+
+    }//GEN-LAST:event_MateriTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -575,12 +590,12 @@ catch (SQLException e) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel AddDiskusiPanel;
-    private javax.swing.JPanel AddMateriPanel;
     private javax.swing.JButton BookmarkNavigator;
+    private javax.swing.JPanel BookmarkPanel;
     private javax.swing.JTable BookmarkTable;
     private javax.swing.JLabel DiskusiLabel;
     private javax.swing.JButton MateriNavigator;
+    private javax.swing.JPanel MateriPanel;
     private javax.swing.JTable MateriTable;
     private javax.swing.JTabbedPane TabPane;
     private javax.swing.JButton jButton1;
@@ -591,6 +606,7 @@ catch (SQLException e) {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel materiSayaLabel;
