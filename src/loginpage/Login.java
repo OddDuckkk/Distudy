@@ -37,8 +37,8 @@ public class Login extends javax.swing.JFrame {
     public static Connection getKoneksi(){
       try {
         String url = "jdbc:mysql://localhost/elearning";
-        String user = "root";
-        String password = "";
+            String user = "root";
+            String password = "";
         DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
         koneksi = DriverManager.getConnection(url, user, password);
         System.out.println("Connection successful");
@@ -253,7 +253,7 @@ public class Login extends javax.swing.JFrame {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if(resultSet.next()) {
-                    currentUser = new User(resultSet.getString("name"), resultSet.getString("role"), resultSet.getInt("id"));
+                    currentUser = new User(resultSet.getString("name"), resultSet.getString("role"), resultSet.getInt("id"), resultSet.getString("email"));
                     return true;
                 }
                 return false; 

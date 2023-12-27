@@ -5,6 +5,7 @@
 package loginpage;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import org.apache.pdfbox.pdmodel.*;
@@ -40,28 +42,43 @@ public class Lecturer extends javax.swing.JFrame {
         
         materiModel = new DefaultTableModel();
         MateriTable.setModel(materiModel);
-        materiModel.addColumn("Id Materi");
+        materiModel.addColumn("Id");
         materiModel.addColumn("Nama Materi");
+        
+        TableColumnModel columnModel = MateriTable.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(5);
+        columnModel.getColumn(1).setPreferredWidth(75);
         
         loadMateriData();
         
         diskusiModel = new DefaultTableModel();
-        DiskusiSayaTable.setModel(diskusiModel);
-        diskusiModel.addColumn("Id Diskusi");
+        DiskusiTable.setModel(diskusiModel);
+        diskusiModel.addColumn("Id");
         diskusiModel.addColumn("Nama Diskusi");
         diskusiModel.addColumn("Topik Diskusi");
+        
+        TableColumnModel columnModel2 = DiskusiTable.getColumnModel();
+        columnModel2.getColumn(0).setPreferredWidth(5);
+        columnModel2.getColumn(1).setPreferredWidth(75);
         
         loadDiskusiData();
         
         diskusiSayaModel = new DefaultTableModel();
-        DiskusiTable.setModel(diskusiModel);
-        diskusiSayaModel.addColumn("Id Diskusi");
+        DiskusiSayaTable.setModel(diskusiSayaModel);
+        diskusiSayaModel.addColumn("Id");
         diskusiSayaModel.addColumn("Nama Diskusi");
         diskusiSayaModel.addColumn("Topik Diskusi");
         
-        loadDiskusiDataSaya();
+        TableColumnModel columnModel3 = DiskusiSayaTable.getColumnModel();
+        columnModel3.getColumn(0).setPreferredWidth(5);
+        columnModel3.getColumn(1).setPreferredWidth(75);
+        
+        loadDiskusiSayaData();
         
         usernameLabel.setText(login.currentUser.getUsername());
+        
+        profileNameField.setText(login.currentUser.getUsername());
+        profileEmailField.setText(login.currentUser.getEmail());
     }
     
     private void loadMateriData() {
@@ -101,14 +118,14 @@ public class Lecturer extends javax.swing.JFrame {
         
         try {
             Connection connection = DatabaseConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM materi WHERE id_materi = ?");
-            statement.setInt(1, login.currentUser.getId());
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM diskusi WHERE replies_id IS NULL");
             ResultSet resultSet = statement.executeQuery();
             
             while(resultSet.next()) {
                 Object[] o = new Object[3];
                 o[0] = resultSet.getString("id_diskusi");
                 o[1] = resultSet.getString("nama_diskusi");
+                o[2] = resultSet.getString("topik_diskusi");
                 
                 diskusiModel.addRow(o);
             }
@@ -122,16 +139,15 @@ public class Lecturer extends javax.swing.JFrame {
         }
     }
     
-    private void loadDiskusiDataSaya() {
+    private void loadDiskusiSayaData() {
         diskusiSayaModel.getDataVector().removeAllElements();
         diskusiSayaModel.fireTableDataChanged();
         
         try {
             Connection connection = DatabaseConnection.getConnection();
-            String query = "SELECT * FROM diskusi";
-            // TODO : query diskusi yang dimiliki lecturer ini saja
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM diskusi WHERE replies_id IS NULL && user_id= ?");
+            statement.setInt(1, login.currentUser.getId());
+            ResultSet resultSet = statement.executeQuery();
             
             while(resultSet.next()) {
                 Object[] o = new Object[3];
@@ -155,7 +171,7 @@ public class Lecturer extends javax.swing.JFrame {
         NamaMateriField.setText("");
         FileNameField.setText("");
         NamaMateriUpdateField.setText("");
-        ReferensiMateriUpdateField.setText("");
+        FileNameUpdateField.setText("");
         IdMateriUpdateField.setText("");
         IdHapusMateriField.setText("");
     }
@@ -163,9 +179,6 @@ public class Lecturer extends javax.swing.JFrame {
     private void CleanUpDiskusi() {
         NamaDiskusiField.setText("");
         TopikDiskusiField.setText("");
-        NamaDiskusiUpdateField.setText("");
-        TopikDiskusiUpdateField.setText("");
-        IdDiskusiUpdateField.setText("");
         IdDiskusiHapusField.setText("");
     }
 
@@ -196,7 +209,7 @@ public class Lecturer extends javax.swing.JFrame {
         JudulMateriLabel2 = new javax.swing.JLabel();
         ReferensiMateri1 = new javax.swing.JLabel();
         NamaMateriUpdateField = new javax.swing.JTextField();
-        ReferensiMateriUpdateField = new javax.swing.JTextField();
+        FileNameUpdateField = new javax.swing.JTextField();
         UpdateMateriButton = new javax.swing.JButton();
         ReferensiMateri2 = new javax.swing.JLabel();
         IdMateriUpdateField = new javax.swing.JTextField();
@@ -210,31 +223,38 @@ public class Lecturer extends javax.swing.JFrame {
         FileNameField = new javax.swing.JTextField();
         pdfScrollPane = new javax.swing.JScrollPane();
         pdfPanel = new javax.swing.JPanel();
+        PilihMateriUpdateButton = new javax.swing.JButton();
         AddDiskusiPanel = new javax.swing.JPanel();
         TopikDiskusiLabel = new javax.swing.JLabel();
         TopikDiskusiField = new javax.swing.JTextField();
         NamaDiskusiLabel = new javax.swing.JLabel();
         NamaDiskusiField = new javax.swing.JTextField();
         AddDiskusiButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        DiskusiSayaTable = new javax.swing.JTable();
         penambahanDiskusiLabel = new javax.swing.JLabel();
-        DiskusiLabel = new javax.swing.JLabel();
         DiskusiSayaLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         DiskusiTable = new javax.swing.JTable();
-        penambahanDiskusiLabel1 = new javax.swing.JLabel();
-        NamaDiskusiLabel1 = new javax.swing.JLabel();
-        TopikDiskusiLabel1 = new javax.swing.JLabel();
-        TopikDiskusiLabel2 = new javax.swing.JLabel();
-        NamaDiskusiUpdateField = new javax.swing.JTextField();
-        TopikDiskusiUpdateField = new javax.swing.JTextField();
-        IdDiskusiUpdateField = new javax.swing.JTextField();
-        UpdateDiskusiButton = new javax.swing.JButton();
         penambahanDiskusiLabel2 = new javax.swing.JLabel();
         TopikDiskusiLabel3 = new javax.swing.JLabel();
         IdDiskusiHapusField = new javax.swing.JTextField();
         HapusDiskusiButton = new javax.swing.JButton();
+        NamaDiskusiTerpilih = new javax.swing.JLabel();
+        DiskusiScrollPane = new javax.swing.JScrollPane();
+        DiskusiPanel = new javax.swing.JPanel();
+        TopikDiskusiTerpilih = new javax.swing.JLabel();
+        JawabDiskusiField = new javax.swing.JTextField();
+        JawabDiskusiButton = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        DiskusiSayaTable = new javax.swing.JTable();
+        DiskusiSayaLabel2 = new javax.swing.JLabel();
+        ProfilePanel = new javax.swing.JPanel();
+        profileEmailLabel = new javax.swing.JLabel();
+        profileEmailField = new javax.swing.JTextField();
+        profileNameLabel = new javax.swing.JLabel();
+        profileNameField = new javax.swing.JTextField();
+        profileUpdateButton = new javax.swing.JButton();
+        profileLabel = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         DiskusiNavigator = new javax.swing.JButton();
         MateriNavigator = new javax.swing.JButton();
@@ -268,9 +288,9 @@ public class Lecturer extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 863, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1122, Short.MAX_VALUE)
                 .addComponent(usernameLabel)
-                .addGap(205, 205, 205))
+                .addGap(14, 14, 14))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,17 +298,14 @@ public class Lecturer extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(0, 7, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(usernameLabel)))
+                    .addComponent(usernameLabel)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1460, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1530, -1));
 
         TabPane.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -313,7 +330,7 @@ public class Lecturer extends javax.swing.JFrame {
         AddMateriButton.setBackground(new java.awt.Color(51, 153, 255));
         AddMateriButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         AddMateriButton.setForeground(new java.awt.Color(255, 255, 255));
-        AddMateriButton.setText("Add Materi");
+        AddMateriButton.setText("Add");
         AddMateriButton.setBorder(null);
         AddMateriButton.setBorderPainted(false);
         AddMateriButton.setFocusPainted(false);
@@ -371,19 +388,19 @@ public class Lecturer extends javax.swing.JFrame {
             }
         });
 
-        ReferensiMateriUpdateField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        ReferensiMateriUpdateField.setForeground(new java.awt.Color(51, 153, 255));
-        ReferensiMateriUpdateField.setEnabled(false);
-        ReferensiMateriUpdateField.addActionListener(new java.awt.event.ActionListener() {
+        FileNameUpdateField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        FileNameUpdateField.setForeground(new java.awt.Color(51, 153, 255));
+        FileNameUpdateField.setEnabled(false);
+        FileNameUpdateField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ReferensiMateriUpdateFieldActionPerformed(evt);
+                FileNameUpdateFieldActionPerformed(evt);
             }
         });
 
         UpdateMateriButton.setBackground(new java.awt.Color(51, 153, 255));
         UpdateMateriButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         UpdateMateriButton.setForeground(new java.awt.Color(255, 255, 255));
-        UpdateMateriButton.setText("Update Materi");
+        UpdateMateriButton.setText("Update");
         UpdateMateriButton.setBorder(null);
         UpdateMateriButton.setBorderPainted(false);
         UpdateMateriButton.setFocusPainted(false);
@@ -429,7 +446,7 @@ public class Lecturer extends javax.swing.JFrame {
         HapusMateriButton.setBackground(new java.awt.Color(51, 153, 255));
         HapusMateriButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         HapusMateriButton.setForeground(new java.awt.Color(255, 255, 255));
-        HapusMateriButton.setText("Delete Materi");
+        HapusMateriButton.setText("Delete");
         HapusMateriButton.setBorder(null);
         HapusMateriButton.setBorderPainted(false);
         HapusMateriButton.setFocusPainted(false);
@@ -465,7 +482,7 @@ public class Lecturer extends javax.swing.JFrame {
         pdfPanel.setLayout(pdfPanelLayout);
         pdfPanelLayout.setHorizontalGroup(
             pdfPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 484, Short.MAX_VALUE)
+            .addGap(0, 730, Short.MAX_VALUE)
         );
         pdfPanelLayout.setVerticalGroup(
             pdfPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,53 +491,81 @@ public class Lecturer extends javax.swing.JFrame {
 
         pdfScrollPane.setViewportView(pdfPanel);
 
+        PilihMateriUpdateButton.setBackground(new java.awt.Color(51, 153, 255));
+        PilihMateriUpdateButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        PilihMateriUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
+        PilihMateriUpdateButton.setText("Get File");
+        PilihMateriUpdateButton.setBorder(null);
+        PilihMateriUpdateButton.setBorderPainted(false);
+        PilihMateriUpdateButton.setFocusPainted(false);
+        PilihMateriUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PilihMateriUpdateButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout AddMateriPanelLayout = new javax.swing.GroupLayout(AddMateriPanel);
         AddMateriPanel.setLayout(AddMateriPanelLayout);
         AddMateriPanelLayout.setHorizontalGroup(
             AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AddMateriPanelLayout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                        .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JudulMateriLabel1)
-                            .addComponent(ReferensiMateri)
-                            .addComponent(penambahanMateriLabel)
-                            .addComponent(modifikasiMaterilabel)
-                            .addComponent(JudulMateriLabel2)
-                            .addComponent(ReferensiMateri1)
-                            .addComponent(ReferensiMateri2)
-                            .addComponent(hapusMateriLabel)
-                            .addComponent(ReferensiMateri3)
-                            .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(97, 97, 97)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(NamaMateriField, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
-                                .addComponent(NamaMateriUpdateField, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
-                                .addComponent(FileNameField))
-                            .addComponent(ReferensiMateriUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(IdMateriUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(IdHapusMateriField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(HapusMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(UpdateMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                        .addComponent(PilihMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(AddMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
                 .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                        .addComponent(materiSayaLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                                .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JudulMateriLabel1)
+                                    .addComponent(ReferensiMateri))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(FileNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(NamaMateriField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddMateriPanelLayout.createSequentialGroup()
+                                        .addComponent(PilihMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(AddMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(penambahanMateriLabel)
+                            .addComponent(modifikasiMaterilabel))
+                        .addGap(14, 14, 14)
+                        .addComponent(materiSayaLabel))
                     .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                                    .addComponent(ReferensiMateri3)
+                                    .addGap(52, 52, 52)
+                                    .addComponent(IdHapusMateriField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                                    .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(JudulMateriLabel2)
+                                        .addComponent(ReferensiMateri1)
+                                        .addComponent(ReferensiMateri2))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                                            .addGap(113, 113, 113)
+                                            .addComponent(PilihMateriUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(UpdateMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(FileNameUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(NamaMateriUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(IdMateriUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                                        .addGap(97, 97, 97)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(AddMateriPanelLayout.createSequentialGroup()
+                                        .addGap(280, 280, 280)
+                                        .addComponent(HapusMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(18, 18, 18)
-                        .addComponent(pdfScrollPane)))
-                .addContainerGap())
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(hapusMateriLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pdfScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         AddMateriPanelLayout.setVerticalGroup(
             AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -554,13 +599,15 @@ public class Lecturer extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(ReferensiMateri1)
-                                    .addComponent(ReferensiMateriUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(FileNameUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(ReferensiMateri2)
                                     .addComponent(IdMateriUpdateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addComponent(UpdateMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(UpdateMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(PilihMateriUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(13, 13, 13)
                         .addComponent(hapusMateriLabel)
@@ -568,16 +615,16 @@ public class Lecturer extends javax.swing.JFrame {
                         .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(ReferensiMateri3)
                             .addComponent(IdHapusMateriField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(AddMateriPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addGap(40, 40, 40))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(AddMateriPanelLayout.createSequentialGroup()
-                                .addComponent(HapusMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(17, 17, 17)
+                                .addComponent(HapusMateriButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addGap(40, 40, 40))
                     .addGroup(AddMateriPanelLayout.createSequentialGroup()
                         .addComponent(pdfScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 732, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -586,13 +633,10 @@ public class Lecturer extends javax.swing.JFrame {
         TabPane.addTab("tab1", AddMateriPanel);
 
         AddDiskusiPanel.setBackground(new java.awt.Color(255, 255, 255));
-        AddDiskusiPanel.setLayout(null);
 
         TopikDiskusiLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         TopikDiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
         TopikDiskusiLabel.setText("Topik Diskusi");
-        AddDiskusiPanel.add(TopikDiskusiLabel);
-        TopikDiskusiLabel.setBounds(36, 143, 145, 29);
 
         TopikDiskusiField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         TopikDiskusiField.setForeground(new java.awt.Color(51, 153, 255));
@@ -601,14 +645,10 @@ public class Lecturer extends javax.swing.JFrame {
                 TopikDiskusiFieldActionPerformed(evt);
             }
         });
-        AddDiskusiPanel.add(TopikDiskusiField);
-        TopikDiskusiField.setBounds(228, 140, 304, 35);
 
         NamaDiskusiLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         NamaDiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
         NamaDiskusiLabel.setText("Nama Diskusi");
-        AddDiskusiPanel.add(NamaDiskusiLabel);
-        NamaDiskusiLabel.setBounds(36, 87, 148, 29);
 
         NamaDiskusiField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         NamaDiskusiField.setForeground(new java.awt.Color(51, 153, 255));
@@ -617,8 +657,6 @@ public class Lecturer extends javax.swing.JFrame {
                 NamaDiskusiFieldActionPerformed(evt);
             }
         });
-        AddDiskusiPanel.add(NamaDiskusiField);
-        NamaDiskusiField.setBounds(228, 84, 304, 35);
 
         AddDiskusiButton.setBackground(new java.awt.Color(51, 153, 255));
         AddDiskusiButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
@@ -632,8 +670,99 @@ public class Lecturer extends javax.swing.JFrame {
                 AddDiskusiButtonActionPerformed(evt);
             }
         });
-        AddDiskusiPanel.add(AddDiskusiButton);
-        AddDiskusiButton.setBounds(391, 196, 141, 41);
+
+        penambahanDiskusiLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        penambahanDiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
+        penambahanDiskusiLabel.setText("Penambahan Diskusi");
+
+        DiskusiSayaLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        DiskusiSayaLabel1.setForeground(new java.awt.Color(51, 153, 255));
+        DiskusiSayaLabel1.setText("Diskusi");
+
+        DiskusiTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        DiskusiTable.setForeground(new java.awt.Color(51, 153, 255));
+        DiskusiTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        DiskusiTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DiskusiTableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(DiskusiTable);
+
+        penambahanDiskusiLabel2.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        penambahanDiskusiLabel2.setForeground(new java.awt.Color(51, 153, 255));
+        penambahanDiskusiLabel2.setText("Hapus Diskusi");
+
+        TopikDiskusiLabel3.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        TopikDiskusiLabel3.setForeground(new java.awt.Color(51, 153, 255));
+        TopikDiskusiLabel3.setText("Id Diskusi");
+
+        IdDiskusiHapusField.setEditable(false);
+        IdDiskusiHapusField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        IdDiskusiHapusField.setForeground(new java.awt.Color(51, 153, 255));
+        IdDiskusiHapusField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IdDiskusiHapusFieldActionPerformed(evt);
+            }
+        });
+
+        HapusDiskusiButton.setBackground(new java.awt.Color(51, 153, 255));
+        HapusDiskusiButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        HapusDiskusiButton.setForeground(new java.awt.Color(255, 255, 255));
+        HapusDiskusiButton.setText("Hapus Diskusi");
+        HapusDiskusiButton.setBorder(null);
+        HapusDiskusiButton.setBorderPainted(false);
+        HapusDiskusiButton.setFocusPainted(false);
+        HapusDiskusiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HapusDiskusiButtonActionPerformed(evt);
+            }
+        });
+
+        NamaDiskusiTerpilih.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        NamaDiskusiTerpilih.setForeground(new java.awt.Color(51, 153, 255));
+        NamaDiskusiTerpilih.setText("Nama Diskusi");
+
+        DiskusiPanel.setPreferredSize(new java.awt.Dimension(200, 300));
+        DiskusiPanel.setLayout(new javax.swing.BoxLayout(DiskusiPanel, javax.swing.BoxLayout.PAGE_AXIS));
+
+        TopikDiskusiTerpilih.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        TopikDiskusiTerpilih.setForeground(new java.awt.Color(51, 153, 255));
+        TopikDiskusiTerpilih.setText("Topik Diskusi");
+        DiskusiPanel.add(TopikDiskusiTerpilih);
+
+        DiskusiScrollPane.setViewportView(DiskusiPanel);
+
+        JawabDiskusiField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        JawabDiskusiField.setForeground(new java.awt.Color(51, 153, 255));
+        JawabDiskusiField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JawabDiskusiFieldActionPerformed(evt);
+            }
+        });
+
+        JawabDiskusiButton.setBackground(new java.awt.Color(51, 153, 255));
+        JawabDiskusiButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        JawabDiskusiButton.setForeground(new java.awt.Color(255, 255, 255));
+        JawabDiskusiButton.setText("Jawab");
+        JawabDiskusiButton.setBorder(null);
+        JawabDiskusiButton.setBorderPainted(false);
+        JawabDiskusiButton.setFocusPainted(false);
+        JawabDiskusiButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JawabDiskusiButtonActionPerformed(evt);
+            }
+        });
 
         DiskusiSayaTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         DiskusiSayaTable.setForeground(new java.awt.Color(51, 153, 255));
@@ -655,154 +784,206 @@ public class Lecturer extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(DiskusiSayaTable);
 
-        AddDiskusiPanel.add(jScrollPane2);
-        jScrollPane2.setBounds(571, 84, 348, 402);
+        DiskusiSayaLabel2.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        DiskusiSayaLabel2.setForeground(new java.awt.Color(51, 153, 255));
+        DiskusiSayaLabel2.setText("Diskusi Saya");
 
-        penambahanDiskusiLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        penambahanDiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
-        penambahanDiskusiLabel.setText("Penambahan Diskusi");
-        AddDiskusiPanel.add(penambahanDiskusiLabel);
-        penambahanDiskusiLabel.setBounds(36, 34, 226, 29);
-
-        DiskusiLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        DiskusiLabel.setForeground(new java.awt.Color(51, 153, 255));
-        DiskusiLabel.setText("Diskusi Saya");
-        AddDiskusiPanel.add(DiskusiLabel);
-        DiskusiLabel.setBounds(571, 34, 138, 29);
-
-        DiskusiSayaLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        DiskusiSayaLabel1.setForeground(new java.awt.Color(51, 153, 255));
-        DiskusiSayaLabel1.setText("Diskusi");
-        AddDiskusiPanel.add(DiskusiSayaLabel1);
-        DiskusiSayaLabel1.setBounds(925, 34, 79, 29);
-
-        DiskusiTable.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        DiskusiTable.setForeground(new java.awt.Color(51, 153, 255));
-        DiskusiTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(DiskusiTable);
-
-        AddDiskusiPanel.add(jScrollPane3);
-        jScrollPane3.setBounds(925, 84, 348, 402);
-
-        penambahanDiskusiLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        penambahanDiskusiLabel1.setForeground(new java.awt.Color(51, 153, 255));
-        penambahanDiskusiLabel1.setText("Modifikasi Diskusi");
-        AddDiskusiPanel.add(penambahanDiskusiLabel1);
-        penambahanDiskusiLabel1.setBounds(36, 243, 198, 29);
-
-        NamaDiskusiLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        NamaDiskusiLabel1.setForeground(new java.awt.Color(51, 153, 255));
-        NamaDiskusiLabel1.setText("Nama Diskusi");
-        AddDiskusiPanel.add(NamaDiskusiLabel1);
-        NamaDiskusiLabel1.setBounds(36, 296, 148, 29);
-
-        TopikDiskusiLabel1.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        TopikDiskusiLabel1.setForeground(new java.awt.Color(51, 153, 255));
-        TopikDiskusiLabel1.setText("Topik Diskusi");
-        AddDiskusiPanel.add(TopikDiskusiLabel1);
-        TopikDiskusiLabel1.setBounds(36, 352, 145, 29);
-
-        TopikDiskusiLabel2.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        TopikDiskusiLabel2.setForeground(new java.awt.Color(51, 153, 255));
-        TopikDiskusiLabel2.setText("Id Diskusi");
-        AddDiskusiPanel.add(TopikDiskusiLabel2);
-        TopikDiskusiLabel2.setBounds(36, 408, 106, 29);
-
-        NamaDiskusiUpdateField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        NamaDiskusiUpdateField.setForeground(new java.awt.Color(51, 153, 255));
-        NamaDiskusiUpdateField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NamaDiskusiUpdateFieldActionPerformed(evt);
-            }
-        });
-        AddDiskusiPanel.add(NamaDiskusiUpdateField);
-        NamaDiskusiUpdateField.setBounds(228, 293, 304, 35);
-
-        TopikDiskusiUpdateField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        TopikDiskusiUpdateField.setForeground(new java.awt.Color(51, 153, 255));
-        TopikDiskusiUpdateField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TopikDiskusiUpdateFieldActionPerformed(evt);
-            }
-        });
-        AddDiskusiPanel.add(TopikDiskusiUpdateField);
-        TopikDiskusiUpdateField.setBounds(228, 349, 304, 35);
-
-        IdDiskusiUpdateField.setEditable(false);
-        IdDiskusiUpdateField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        IdDiskusiUpdateField.setForeground(new java.awt.Color(51, 153, 255));
-        IdDiskusiUpdateField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IdDiskusiUpdateFieldActionPerformed(evt);
-            }
-        });
-        AddDiskusiPanel.add(IdDiskusiUpdateField);
-        IdDiskusiUpdateField.setBounds(228, 405, 304, 35);
-
-        UpdateDiskusiButton.setBackground(new java.awt.Color(51, 153, 255));
-        UpdateDiskusiButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        UpdateDiskusiButton.setForeground(new java.awt.Color(255, 255, 255));
-        UpdateDiskusiButton.setText("Update Diskusi");
-        UpdateDiskusiButton.setBorder(null);
-        UpdateDiskusiButton.setBorderPainted(false);
-        UpdateDiskusiButton.setFocusPainted(false);
-        UpdateDiskusiButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdateDiskusiButtonActionPerformed(evt);
-            }
-        });
-        AddDiskusiPanel.add(UpdateDiskusiButton);
-        UpdateDiskusiButton.setBounds(356, 461, 176, 38);
-
-        penambahanDiskusiLabel2.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        penambahanDiskusiLabel2.setForeground(new java.awt.Color(51, 153, 255));
-        penambahanDiskusiLabel2.setText("Hapus Diskusi");
-        AddDiskusiPanel.add(penambahanDiskusiLabel2);
-        penambahanDiskusiLabel2.setBounds(36, 509, 154, 29);
-
-        TopikDiskusiLabel3.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        TopikDiskusiLabel3.setForeground(new java.awt.Color(51, 153, 255));
-        TopikDiskusiLabel3.setText("Id Diskusi");
-        AddDiskusiPanel.add(TopikDiskusiLabel3);
-        TopikDiskusiLabel3.setBounds(36, 562, 106, 29);
-
-        IdDiskusiHapusField.setEditable(false);
-        IdDiskusiHapusField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        IdDiskusiHapusField.setForeground(new java.awt.Color(51, 153, 255));
-        IdDiskusiHapusField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                IdDiskusiHapusFieldActionPerformed(evt);
-            }
-        });
-        AddDiskusiPanel.add(IdDiskusiHapusField);
-        IdDiskusiHapusField.setBounds(228, 559, 304, 35);
-
-        HapusDiskusiButton.setBackground(new java.awt.Color(51, 153, 255));
-        HapusDiskusiButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        HapusDiskusiButton.setForeground(new java.awt.Color(255, 255, 255));
-        HapusDiskusiButton.setText("Hapus Diskusi");
-        HapusDiskusiButton.setBorder(null);
-        HapusDiskusiButton.setBorderPainted(false);
-        HapusDiskusiButton.setFocusPainted(false);
-        HapusDiskusiButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                HapusDiskusiButtonActionPerformed(evt);
-            }
-        });
-        AddDiskusiPanel.add(HapusDiskusiButton);
-        HapusDiskusiButton.setBounds(360, 620, 170, 40);
+        javax.swing.GroupLayout AddDiskusiPanelLayout = new javax.swing.GroupLayout(AddDiskusiPanel);
+        AddDiskusiPanel.setLayout(AddDiskusiPanelLayout);
+        AddDiskusiPanelLayout.setHorizontalGroup(
+            AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                        .addComponent(penambahanDiskusiLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(256, 256, 256)
+                        .addComponent(DiskusiSayaLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE))
+                    .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                        .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(TopikDiskusiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(NamaDiskusiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
+                                .addGap(33, 33, 33)
+                                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(NamaDiskusiField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TopikDiskusiField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(penambahanDiskusiLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                                    .addComponent(TopikDiskusiLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(IdDiskusiHapusField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                                    .addGap(355, 355, 355)
+                                    .addComponent(AddDiskusiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(HapusDiskusiButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(DiskusiSayaLabel2)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(NamaDiskusiTerpilih, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddDiskusiPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddDiskusiPanelLayout.createSequentialGroup()
+                                .addComponent(JawabDiskusiField, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(JawabDiskusiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(115, 115, 115))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddDiskusiPanelLayout.createSequentialGroup()
+                                .addComponent(DiskusiScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(113, 113, 113))))))
+        );
+        AddDiskusiPanelLayout.setVerticalGroup(
+            AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(penambahanDiskusiLabel)
+                    .addComponent(DiskusiSayaLabel1)
+                    .addComponent(NamaDiskusiTerpilih))
+                .addGap(21, 21, 21)
+                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                        .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(NamaDiskusiLabel))
+                                    .addComponent(NamaDiskusiField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(21, 21, 21)
+                                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                                        .addGap(3, 3, 3)
+                                        .addComponent(TopikDiskusiLabel))
+                                    .addComponent(TopikDiskusiField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(21, 21, 21)
+                                .addComponent(AddDiskusiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(17, 17, 17)
+                                .addComponent(penambahanDiskusiLabel2)
+                                .addGap(18, 18, 18)
+                                .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(TopikDiskusiLabel3)
+                                    .addComponent(IdDiskusiHapusField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(HapusDiskusiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(DiskusiSayaLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(AddDiskusiPanelLayout.createSequentialGroup()
+                        .addComponent(DiskusiScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(AddDiskusiPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(JawabDiskusiField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(JawabDiskusiButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
 
         TabPane.addTab("tab1", AddDiskusiPanel);
+
+        ProfilePanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        profileEmailLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        profileEmailLabel.setForeground(new java.awt.Color(51, 153, 255));
+        profileEmailLabel.setText("Email");
+
+        profileEmailField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        profileEmailField.setForeground(new java.awt.Color(51, 153, 255));
+        profileEmailField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileEmailFieldActionPerformed(evt);
+            }
+        });
+
+        profileNameLabel.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        profileNameLabel.setForeground(new java.awt.Color(51, 153, 255));
+        profileNameLabel.setText("Nama");
+
+        profileNameField.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        profileNameField.setForeground(new java.awt.Color(51, 153, 255));
+        profileNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileNameFieldActionPerformed(evt);
+            }
+        });
+
+        profileUpdateButton.setBackground(new java.awt.Color(51, 153, 255));
+        profileUpdateButton.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        profileUpdateButton.setForeground(new java.awt.Color(255, 255, 255));
+        profileUpdateButton.setText("Update Profile");
+        profileUpdateButton.setBorder(null);
+        profileUpdateButton.setBorderPainted(false);
+        profileUpdateButton.setFocusPainted(false);
+        profileUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileUpdateButtonActionPerformed(evt);
+            }
+        });
+
+        profileLabel.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        profileLabel.setForeground(new java.awt.Color(51, 153, 255));
+        profileLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        profileLabel.setText("PROFILE");
+
+        jLabel6.setBackground(new java.awt.Color(51, 153, 255));
+        jLabel6.setForeground(new java.awt.Color(51, 153, 255));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/loginpage/logo2.png"))); // NOI18N
+
+        javax.swing.GroupLayout ProfilePanelLayout = new javax.swing.GroupLayout(ProfilePanel);
+        ProfilePanel.setLayout(ProfilePanelLayout);
+        ProfilePanelLayout.setHorizontalGroup(
+            ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
+                .addGap(613, 613, 613)
+                .addComponent(profileLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
+                .addGap(499, 499, 499)
+                .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(profileNameLabel)
+                    .addComponent(profileEmailLabel))
+                .addGap(71, 71, 71)
+                .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(profileEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profileNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profileUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(537, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProfilePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(552, 552, 552))
+        );
+        ProfilePanelLayout.setVerticalGroup(
+            ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProfilePanelLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(profileLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(profileNameLabel)
+                    .addComponent(profileNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ProfilePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(profileEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profileEmailLabel))
+                .addGap(18, 18, 18)
+                .addComponent(profileUpdateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(390, Short.MAX_VALUE))
+        );
+
+        TabPane.addTab("tab1", ProfilePanel);
 
         getContentPane().add(TabPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, 840));
 
@@ -876,10 +1057,10 @@ public class Lecturer extends javax.swing.JFrame {
                 .addComponent(MateriNavigator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(DiskusiNavigator, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(628, Short.MAX_VALUE))
+                .addContainerGap(594, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, -1));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, -1, 800));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -935,11 +1116,12 @@ public class Lecturer extends javax.swing.JFrame {
         // TODO add foreign key to lecturer. Perlu yang buat login 😊.
         try {
             Connection connection = DatabaseConnection.getConnection();
-            String query = "INSERT INTO diskusi(nama_diskusi, topik_diskusi) VALUES (?,?)";
+            String query = "INSERT INTO diskusi(nama_diskusi, topik_diskusi, user_id) VALUES (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
 
             statement.setString(1, NamaDiskusiField.getText());
             statement.setString(2, TopikDiskusiField.getText());
+            statement.setInt(3, login.currentUser.getId());
 
             statement.execute();
             
@@ -947,7 +1129,6 @@ public class Lecturer extends javax.swing.JFrame {
             connection.close();
             JOptionPane.showMessageDialog(null, "Berhasil menambahkan diskusi");
             loadDiskusiData();
-            loadDiskusiDataSaya();
             CleanUpDiskusi();
         }
         catch (SQLException e) {
@@ -982,7 +1163,7 @@ public class Lecturer extends javax.swing.JFrame {
                 pdfPanel.setLayout(new GridLayout(numPages, 1));
 
                 for (int j = 0; j < numPages; j++) {
-                    BufferedImage image = pdfRenderer.renderImageWithDPI(j, 100);
+                    BufferedImage image = pdfRenderer.renderImageWithDPI(j, 75);
                     JLabel label = new JLabel(new ImageIcon(image));
                     pdfPanel.add(label);
                 }
@@ -1005,26 +1186,39 @@ public class Lecturer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_NamaMateriUpdateFieldActionPerformed
 
-    private void ReferensiMateriUpdateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReferensiMateriUpdateFieldActionPerformed
+    private void FileNameUpdateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FileNameUpdateFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ReferensiMateriUpdateFieldActionPerformed
+    }//GEN-LAST:event_FileNameUpdateFieldActionPerformed
 
     private void UpdateMateriButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateMateriButtonActionPerformed
-        if(NamaMateriUpdateField.getText().isEmpty() || ReferensiMateriUpdateField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Fill all fields");
+        if(NamaMateriUpdateField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Input nama materi!");
             return;
         }
         
         try {
             Connection connection = DatabaseConnection.getConnection();
-            String query = "UPDATE materi SET judul_materi = ?, referensi_materi = ? WHERE id_materi = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            PreparedStatement statement;
+            if(FileNameUpdateField.getText().isEmpty()) {
+                String query = "UPDATE materi SET judul_materi = ? WHERE id_materi = ?";
+                statement = connection.prepareStatement(query);
+                statement.setString(1, NamaMateriUpdateField.getText());
+                statement.setString(2, IdMateriUpdateField.getText());
+                
+                statement.execute();
+            }
+            else {
+                String query = "UPDATE materi SET judul_materi = ?, data_materi = ? WHERE id_materi = ?";
+                statement = connection.prepareStatement(query);
 
-            statement.setString(1, NamaMateriUpdateField.getText());
-            statement.setString(2,ReferensiMateriUpdateField.getText());
-            statement.setString(3, IdMateriUpdateField.getText());
-
-            statement.execute();
+                statement.setString(1, NamaMateriUpdateField.getText());
+                statement.setBinaryStream(2, fis, (int) selectedFile.length());
+                statement.setString(3, IdMateriUpdateField.getText());
+                
+                statement.execute();
+                fis.close();
+                selectedFile = null;
+            }
             
             statement.close();
             connection.close();
@@ -1032,7 +1226,7 @@ public class Lecturer extends javax.swing.JFrame {
             loadMateriData();
             CleanUpMateri();
         }
-        catch (SQLException e) {
+        catch (SQLException | IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_UpdateMateriButtonActionPerformed
@@ -1044,58 +1238,6 @@ public class Lecturer extends javax.swing.JFrame {
     private void IdHapusMateriFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdHapusMateriFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_IdHapusMateriFieldActionPerformed
-
-    private void NamaDiskusiUpdateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NamaDiskusiUpdateFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_NamaDiskusiUpdateFieldActionPerformed
-
-    private void TopikDiskusiUpdateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TopikDiskusiUpdateFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_TopikDiskusiUpdateFieldActionPerformed
-
-    private void IdDiskusiUpdateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdDiskusiUpdateFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IdDiskusiUpdateFieldActionPerformed
-
-    private void UpdateDiskusiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateDiskusiButtonActionPerformed
-        if(NamaDiskusiUpdateField.getText().isEmpty() || TopikDiskusiUpdateField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Fill all fields");
-            return;
-        }
-        
-        try {
-            Connection connection = DatabaseConnection.getConnection();
-            String query = "UPDATE diskusi SET nama_diskusi = ?, topik_diskusi = ? WHERE id_diskusi= ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-
-            statement.setString(1, NamaDiskusiUpdateField.getText());
-            statement.setString(2,TopikDiskusiUpdateField.getText());
-            statement.setString(3, IdDiskusiUpdateField.getText());
-
-            statement.execute();
-            
-            statement.close();
-            connection.close();
-            JOptionPane.showMessageDialog(null, "Berhasil memperbarui diskusi");
-            loadDiskusiDataSaya();
-            loadDiskusiData();
-            CleanUpDiskusi();
-        }
-        catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-    }//GEN-LAST:event_UpdateDiskusiButtonActionPerformed
-
-    private void DiskusiSayaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DiskusiSayaTableMouseClicked
-        int i = DiskusiSayaTable.getSelectedRow();
-        TableModel model = DiskusiSayaTable.getModel();
-        
-        NamaDiskusiUpdateField.setText(model.getValueAt(i, 1).toString());
-        TopikDiskusiUpdateField.setText(model.getValueAt(i, 2).toString());
-        IdDiskusiUpdateField.setText(model.getValueAt(i, 0).toString());
-        
-        IdDiskusiHapusField.setText(model.getValueAt(i, 0).toString());
-    }//GEN-LAST:event_DiskusiSayaTableMouseClicked
 
     private void IdDiskusiHapusFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdDiskusiHapusFieldActionPerformed
         // TODO add your handling code here:
@@ -1119,7 +1261,6 @@ public class Lecturer extends javax.swing.JFrame {
             connection.close();
             JOptionPane.showMessageDialog(null, "Berhasil menghapus diskusi");
             loadDiskusiData();
-            loadDiskusiDataSaya();
             CleanUpDiskusi();
         }
         catch (SQLException e) {
@@ -1152,6 +1293,7 @@ public class Lecturer extends javax.swing.JFrame {
     }//GEN-LAST:event_DiskusiNavigatorActionPerformed
 
     private void ProfileNavigatorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProfileNavigatorActionPerformed
+        TabPane.setSelectedIndex(2);
         ProfileNavigator.setContentAreaFilled(true);
         ProfileNavigator.setBackground(new Color(51, 153, 255));
         
@@ -1210,6 +1352,173 @@ public class Lecturer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_FileNameFieldActionPerformed
 
+    private void PilihMateriUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PilihMateriUpdateButtonActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        int option = fileChooser.showOpenDialog(this);
+        
+        if (option == JFileChooser.APPROVE_OPTION) {
+            try {
+                selectedFile = fileChooser.getSelectedFile();
+                fis = new FileInputStream(selectedFile);
+                
+                FileNameUpdateField.setText(selectedFile.getAbsolutePath());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+
+            }
+        }
+    }//GEN-LAST:event_PilihMateriUpdateButtonActionPerformed
+
+    private void DiskusiTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DiskusiTableMouseClicked
+        int i = DiskusiTable.getSelectedRow();
+        TableModel model = DiskusiTable.getModel();
+        String textContent = "";
+        
+        try {
+            DiskusiPanel.removeAll();
+            JTextPane TopikDiskusi = new JTextPane();
+            TopikDiskusi.setText(model.getValueAt(i, 2).toString());
+            TopikDiskusi.setFont(new java.awt.Font("Roboto", 1, 36));
+            TopikDiskusi.setForeground(new java.awt.Color(51, 153, 255));
+            TopikDiskusi.setEditable(false);
+            TopikDiskusi.setMaximumSize(new Dimension(700, 100));
+            DiskusiPanel.add(TopikDiskusi);
+            
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "SELECT * FROM diskusi WHERE replies_id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1, model.getValueAt(i, 0).toString());
+
+            ResultSet resultSet = statement.executeQuery();
+            
+            while(resultSet.next()) {
+                Connection connection2 = DatabaseConnection.getConnection();
+                String query2 = "SELECT name FROM pengguna WHERE id = ?";
+                PreparedStatement statement2 = connection2.prepareStatement(query2);
+
+                statement2.setString(1, resultSet.getString("user_id"));
+
+                ResultSet resultSet2 = statement2.executeQuery();
+                
+                while(resultSet2.next()) {
+                    textContent += resultSet2.getString("name");
+                }
+                
+                textContent += " - " + resultSet.getString("topik_diskusi");
+                JTextPane reply = new JTextPane();
+                reply.setText(textContent);
+                reply.setPreferredSize(new Dimension(100, 20));
+                reply.setMaximumSize(new Dimension(700, 50));
+                reply.setFont(new java.awt.Font("Roboto", 1, 20));
+                reply.setForeground(new java.awt.Color(51, 153, 255));
+                reply.setBackground(new java.awt.Color(255,255,255));
+                reply.setEditable(false);
+                
+                DiskusiPanel.add(reply);
+                textContent = "";
+                
+                statement2.close();                
+                connection2.close();
+            }
+            
+            statement.close();
+            connection.close();
+            
+            DiskusiPanel.revalidate();
+            DiskusiPanel.repaint();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
+        NamaDiskusiTerpilih.setText(model.getValueAt(i, 1).toString());
+    }//GEN-LAST:event_DiskusiTableMouseClicked
+
+    private void JawabDiskusiFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JawabDiskusiFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JawabDiskusiFieldActionPerformed
+
+    private void JawabDiskusiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JawabDiskusiButtonActionPerformed
+        int i = DiskusiTable.getSelectedRow();
+        TableModel model = DiskusiTable.getModel();
+        
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "INSERT INTO diskusi(topik_diskusi, user_id, replies_id) VALUES (?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1, JawabDiskusiField.getText());
+            statement.setString(2, String.valueOf(login.currentUser.getId()));
+            statement.setString(3, model.getValueAt(i, 0).toString());
+
+            statement.execute();
+            
+            JOptionPane.showMessageDialog(null, "Berhasil menjawab diskusi");
+            JTextPane newReply = new JTextPane();
+            newReply.setText(login.currentUser.getUsername() + " - " + JawabDiskusiField.getText());
+            newReply.setFont(new java.awt.Font("Roboto", 1, 20));
+            newReply.setForeground(new java.awt.Color(51, 153, 255));
+            newReply.setEditable(false);
+            newReply.setMaximumSize(new Dimension(700, 50));
+            DiskusiPanel.add(newReply);
+            
+            JawabDiskusiField.setText("");    
+            DiskusiPanel.revalidate();
+            DiskusiPanel.repaint();
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_JawabDiskusiButtonActionPerformed
+
+    private void DiskusiSayaTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DiskusiSayaTableMouseClicked
+        int i = DiskusiSayaTable.getSelectedRow();
+        TableModel model = DiskusiSayaTable.getModel();
+        
+        IdDiskusiHapusField.setText(model.getValueAt(i, 0).toString());
+    }//GEN-LAST:event_DiskusiSayaTableMouseClicked
+
+    private void profileEmailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileEmailFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_profileEmailFieldActionPerformed
+
+    private void profileNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_profileNameFieldActionPerformed
+
+    private void profileUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileUpdateButtonActionPerformed
+        if(profileNameField.getText().isEmpty() || profileEmailField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Isi semua field!");
+            return;
+        }
+        
+        if(!profileEmailField.getText().contains("@")) {
+            JOptionPane.showMessageDialog(null, "Email harus beriri '@'!");
+            return;
+        }
+        
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String query = "UPDATE pengguna set name = ?, email = ? WHERE id = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1, profileNameField.getText());
+            statement.setString(2, profileEmailField.getText());
+            statement.setString(3, String.valueOf(login.currentUser.getId()));
+            
+            statement.execute();
+            
+            JOptionPane.showMessageDialog(null, "Profile berhasil di-update.");
+            usernameLabel.setText(profileNameField.getText());
+        }
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_profileUpdateButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1250,43 +1559,44 @@ public class Lecturer extends javax.swing.JFrame {
     private javax.swing.JPanel AddDiskusiPanel;
     private javax.swing.JButton AddMateriButton;
     private javax.swing.JPanel AddMateriPanel;
-    private javax.swing.JLabel DiskusiLabel;
     private javax.swing.JButton DiskusiNavigator;
+    private javax.swing.JPanel DiskusiPanel;
     private javax.swing.JLabel DiskusiSayaLabel1;
+    private javax.swing.JLabel DiskusiSayaLabel2;
     private javax.swing.JTable DiskusiSayaTable;
+    private javax.swing.JScrollPane DiskusiScrollPane;
     private javax.swing.JTable DiskusiTable;
     private javax.swing.JTextField FileNameField;
+    private javax.swing.JTextField FileNameUpdateField;
     private javax.swing.JButton HapusDiskusiButton;
     private javax.swing.JButton HapusMateriButton;
     private javax.swing.JTextField IdDiskusiHapusField;
-    private javax.swing.JTextField IdDiskusiUpdateField;
     private javax.swing.JTextField IdHapusMateriField;
     private javax.swing.JTextField IdMateriUpdateField;
+    private javax.swing.JButton JawabDiskusiButton;
+    private javax.swing.JTextField JawabDiskusiField;
     private javax.swing.JLabel JudulMateriLabel1;
     private javax.swing.JLabel JudulMateriLabel2;
     private javax.swing.JButton MateriNavigator;
     private javax.swing.JTable MateriTable;
     private javax.swing.JTextField NamaDiskusiField;
     private javax.swing.JLabel NamaDiskusiLabel;
-    private javax.swing.JLabel NamaDiskusiLabel1;
-    private javax.swing.JTextField NamaDiskusiUpdateField;
+    private javax.swing.JLabel NamaDiskusiTerpilih;
     private javax.swing.JTextField NamaMateriField;
     private javax.swing.JTextField NamaMateriUpdateField;
     private javax.swing.JButton PilihMateriButton;
+    private javax.swing.JButton PilihMateriUpdateButton;
     private javax.swing.JButton ProfileNavigator;
+    private javax.swing.JPanel ProfilePanel;
     private javax.swing.JLabel ReferensiMateri;
     private javax.swing.JLabel ReferensiMateri1;
     private javax.swing.JLabel ReferensiMateri2;
     private javax.swing.JLabel ReferensiMateri3;
-    private javax.swing.JTextField ReferensiMateriUpdateField;
     private javax.swing.JTabbedPane TabPane;
     private javax.swing.JTextField TopikDiskusiField;
     private javax.swing.JLabel TopikDiskusiLabel;
-    private javax.swing.JLabel TopikDiskusiLabel1;
-    private javax.swing.JLabel TopikDiskusiLabel2;
     private javax.swing.JLabel TopikDiskusiLabel3;
-    private javax.swing.JTextField TopikDiskusiUpdateField;
-    private javax.swing.JButton UpdateDiskusiButton;
+    private javax.swing.JLabel TopikDiskusiTerpilih;
     private javax.swing.JButton UpdateMateriButton;
     private javax.swing.JLabel hapusMateriLabel;
     private javax.swing.JLabel jLabel1;
@@ -1294,6 +1604,7 @@ public class Lecturer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -1304,9 +1615,14 @@ public class Lecturer extends javax.swing.JFrame {
     private javax.swing.JPanel pdfPanel;
     private javax.swing.JScrollPane pdfScrollPane;
     private javax.swing.JLabel penambahanDiskusiLabel;
-    private javax.swing.JLabel penambahanDiskusiLabel1;
     private javax.swing.JLabel penambahanDiskusiLabel2;
     private javax.swing.JLabel penambahanMateriLabel;
+    private javax.swing.JTextField profileEmailField;
+    private javax.swing.JLabel profileEmailLabel;
+    private javax.swing.JLabel profileLabel;
+    private javax.swing.JTextField profileNameField;
+    private javax.swing.JLabel profileNameLabel;
+    private javax.swing.JButton profileUpdateButton;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
 }
